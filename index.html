@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucas Tech Support - Panel de Control</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- PANTALLA DE LOGIN Y ACTIVACIÓN -->
+    <div id="pantalla-login" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #121824; display: flex; justify-content: center; align-items: center; z-index: 999999; font-family: sans-serif; box-sizing: border-box; padding: 16px;">
+        <div style="background: #1c2333; padding: 40px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.5); text-align: center; width: 100%; max-width: 360px; border: 1px solid #2a344a; box-sizing: border-box;">
+            <div style="font-size: 50px; margin-bottom: 20px;">🛡️</div>
+            <h2 style="color: #ffffff; margin-bottom: 10px; font-size: 22px; font-weight: bold; margin-top: 0;">Lucas Tech Support</h2>
+            <p style="color: #707e94; font-size: 14px; margin-bottom: 20px; margin-top: 0;">Protección de Licencia Digital</p>
+
+            <!-- ID comercial fijo del programa -->
+            <div style="background: #0f141c; padding: 10px; border-radius: 6px; border: 1px dashed #2a344a; margin-bottom: 20px; text-align: left;">
+                <span style="color: #707e94; font-size: 11px; display: block; font-weight: bold; text-transform: uppercase;">ID de este Equipo:</span>
+                <span id="hardware-id-display" style="color: #007bff; font-family: monospace; font-size: 14px; font-weight: bold; word-break: break-all;">Generando…</span>
+            </div>
+
+            <div style="text-align: left; margin-bottom: 20px;">
+                <label for="input-password" style="color: #a0aec0; font-size: 12px; display: block; margin-bottom: 8px; text-transform: uppercase; font-weight: bold;">Licencia de Activación</label>
+                <div style="position: relative; width: 100%; box-sizing: border-box;">
+                    <input type="password" id="input-password" placeholder="••••••••" autocomplete="off" style="width: 100%; padding: 12px 45px 12px 12px; background: #0f141c; border: 1px solid #2a344a; border-radius: 6px; color: #fff; font-size: 16px; box-sizing: border-box; outline: none;">
+                    <button type="button" id="btn-ver-password" aria-label="Mostrar u ocultar contraseña" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 18px; padding: 4px; user-select: none; opacity: 0.7;">👁️</button>
+                </div>
+                <div id="error-login" role="alert" style="color: #ef4444; font-size: 13px; margin-top: 8px; display: none;">Licencia inválida para este equipo</div>
+            </div>
+
+            <button type="button" id="btn-ingresar" style="width: 100%; padding: 12px; background: #007bff; border: none; border-radius: 6px; color: #fff; font-size: 16px; font-weight: bold; cursor: pointer;">Activar Software</button>
+        </div>
+    </div>
+    <!-- PANTALLA DE CONTRASEÑA DEL CLIENTE (se pide cada vez que se abre el programa) -->
+    <div id="pantalla-cliente" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #121824; display: none; justify-content: center; align-items: center; z-index: 999990; font-family: sans-serif; box-sizing: border-box; padding: 16px;">
+        <div style="background: #1c2333; padding: 40px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.5); text-align: center; width: 100%; max-width: 360px; border: 1px solid #2a344a; box-sizing: border-box;">
+            <div style="font-size: 50px; margin-bottom: 20px;">🔐</div>
+            <h2 style="color: #ffffff; margin-bottom: 10px; font-size: 22px; font-weight: bold; margin-top: 0;"><span id="nombre-taller-login">Panel del Taller</span></h2>
+            <p style="color: #707e94; font-size: 14px; margin-bottom: 24px; margin-top: 0;">Ingresá tu contraseña para continuar</p>
+
+            <div style="text-align: left; margin-bottom: 20px;">
+                <label for="input-clave-cliente" style="color: #a0aec0; font-size: 12px; display: block; margin-bottom: 8px; text-transform: uppercase; font-weight: bold;">Contraseña</label>
+                <div style="position: relative; width: 100%; box-sizing: border-box;">
+                    <input type="password" id="input-clave-cliente" placeholder="••••••••" autocomplete="off" style="width: 100%; padding: 12px 45px 12px 12px; background: #0f141c; border: 1px solid #2a344a; border-radius: 6px; color: #fff; font-size: 16px; box-sizing: border-box; outline: none; margin-bottom: 0;">
+                    <button type="button" id="btn-ver-clave-cliente" aria-label="Mostrar u ocultar contraseña" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 18px; padding: 4px; user-select: none; opacity: 0.7;">👁️</button>
+                </div>
+                <div id="error-clave-cliente" role="alert" style="color: #ef4444; font-size: 13px; margin-top: 8px; display: none;">Contraseña incorrecta</div>
+            </div>
+
+            <button type="button" id="btn-entrar-cliente" style="width: 100%; padding: 12px; background: #007bff; border: none; border-radius: 6px; color: #fff; font-size: 16px; font-weight: bold; cursor: pointer;">Ingresar</button>
+            <button type="button" id="btn-olvide-clave" style="margin-top: 14px; background: none; border: none; color: #707e94; font-size: 13px; cursor: pointer; text-decoration: underline;">Olvidé mi contraseña</button>
+        </div>
+    </div>
+
+
+    <header>
+        <h1>⚙️ <span id="nombre-taller">Lucas Tech Support</span> - PANEL DE CONTROL PROFESIONAL 👤</h1>
+    </header>
+
+    <main class="dashboard-grid">
+        <!-- COLUMNA IZQUIERDA: Herramientas y Lista de Precios -->
+        <div class="sidebar-column">
+            <section class="card">
+                <h2>HERRAMIENTAS Y COMANDOS ÚTILES</h2>
+                <ul class="tools-list">
+                    <li>- <code>sfc /scannow</code></li>
+                    <li>- <code>dism /online /cleanup-image /checkhealth</code></li>
+                    <li>- <code>dism /online /cleanup-image /scanhealth</code></li>
+                    <li>- <code>dism /online /cleanup-image /restorehealth</code></li>
+                </ul>
+            </section>
+
+            <section class="card">
+                <h2>LISTA DE PRECIOS INTERACTIVA</h2>
+                <div class="services-table-container">
+                    <table class="services-table">
+                        <thead>
+                            <tr>
+                                <th>Servicio</th>
+                                <th>Mano de Obra</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="prices-body">
+                            <!-- Inyección dinámica de servicios -->
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Formulario inline para añadir nuevos servicios -->
+                <div class="inline-form">
+                    <input type="text" id="new-service-name" placeholder="Servicio (Ej: Office)" aria-label="Nombre del servicio">
+                    <input type="number" id="new-service-price" placeholder="$" min="0" step="any" aria-label="Precio del servicio">
+                    <button type="button" id="btn-add-price" aria-label="Agregar servicio">➕</button>
+                </div>
+            </section>
+        </div>
+
+        <!-- COLUMNA CENTRAL: Formularios e Ingresos -->
+        <div class="sidebar-column">
+            <section class="card">
+                <h2>INGRESAR NUEVA ORDEN DE TRABAJO</h2>
+                <form id="job-form">
+                    <input type="text" id="client" placeholder="Cliente" aria-label="Cliente" required>
+                    <input type="tel" id="phone" placeholder="Teléfono" aria-label="Teléfono" required>
+                    <input type="text" id="device" placeholder="Equipo (Ej: Notebook HP)" aria-label="Equipo" required>
+                    <textarea id="fault" placeholder="Falla reportada / Diagnóstico inicial" aria-label="Falla reportada" required></textarea>
+                    <button type="submit">Registrar Orden</button>
+                </form>
+            </section>
+
+            <section class="card">
+                <h2>CALCULADOR DE PRESUPUESTO</h2>
+                <div class="calc-group">
+                    <div class="calc-row">
+                        <label for="calc-hardware">Costo de Repuestos</label>
+                        <input type="number" id="calc-hardware" placeholder="0" min="0" step="any">
+                    </div>
+                    <div class="calc-row">
+                        <label for="calc-labor">Carga de Mano de Obra</label>
+                        <input type="number" id="calc-labor" placeholder="0" min="0" step="any">
+                    </div>
+                    <div class="calc-total-row">
+                        <span>Total Presupuesto</span>
+                        <span id="calc-result" class="total-highlight">$0</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- COLUMNA DERECHA: Órdenes Activas -->
+        <section class="card">
+            <h2>ÓRDENES DE TRABAJO ACTIVAS</h2>
+            <input type="search" id="search-input" placeholder="Buscar orden..." aria-label="Buscar orden">
+            <div class="jobs-scroll-container">
+                <ul id="jobs-list" class="jobs-list">
+                    <!-- Inyección dinámica de tarjetas de órdenes -->
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <!-- BLOQUE INFERIOR: Base de Datos Extendida -->
+    <section class="card table-container">
+        <div class="table-header-flex">
+            <h2>BASE DE DATOS GENERAL</h2>
+            <div class="header-actions">
+                <button type="button" id="btn-print" class="btn-secondary">🖨️ Imprimir</button>
+                <button type="button" id="btn-export" class="btn-secondary">📊 Exportar a Excel (CSV)</button>
+            </div>
+        </div>
+        <p id="print-titulo" class="print-only"></p>
+        <div class="responsive-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Cliente</th>
+                        <th>Equipo</th>
+                        <th>Teléfono</th>
+                        <th>Fecha de Ingreso</th>
+                        <th>Estado</th>
+                        <th>Monto Total</th>
+                        <th>Ficha / Notas</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    <!-- Inyección dinámica de filas de clientes -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- VENTANA MODAL PARA DETALLES -->
+    <div id="details-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Ficha Técnica</h3>
+                <button type="button" id="close-modal" class="btn-close" aria-label="Cerrar">✕</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>📱 Teléfono:</strong> <span id="modal-phone"></span></p>
+                <p><strong>💻 Equipo:</strong> <span id="modal-device"></span></p>
+                <p><strong>🚨 Falla Inicial:</strong></p>
+                <p id="modal-fault" class="block-text"></p>
+                <label for="modal-notes"><strong>📝 Notas del Servicio Técnico:</strong></label>
+                <textarea id="modal-notes" placeholder="Anotá repuestos colocados, números de serie, contraseñas, etc..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTÓN FLOTANTE DE CONFIGURACIÓN (CAMBIO DE CLAVE) -->
+    <button type="button" id="btn-abrir-config" style="position: fixed; bottom: 20px; left: 20px; background: #2a344a; border: 1px solid #3d4f73; border-radius: 50%; width: 50px; height: 50px; font-size: 22px; cursor: pointer; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 999; color: #fff;" title="Configuración de Contraseña" aria-label="Configuración de contraseña">⚙️</button>
+
+    <!-- VENTANA MODAL PARA CAMBIAR CONTRASEÑA -->
+    <div id="modal-config-cliente" role="dialog" aria-modal="true" aria-labelledby="titulo-config" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(9, 13, 22, 0.8); display: none; justify-content: center; align-items: center; z-index: 9999; font-family: sans-serif; box-sizing: border-box; padding: 16px;">
+        <div style="background: #1c2333; padding: 30px; border-radius: 10px; border: 1px solid #2a344a; width: 100%; max-width: 320px; text-align: center; box-sizing: border-box;">
+            <h3 id="titulo-config" style="color: #ffffff; margin-top: 0; margin-bottom: 15px; font-size: 18px;">Configuración del Taller</h3>
+            <p style="color: #707e94; font-size: 13px; margin-bottom: 20px; margin-top: 0;">Personalizá el nombre del taller y la clave de acceso al panel.</p>
+
+            <div style="text-align: left; margin-bottom: 20px;">
+                <label for="nombre-taller-input" style="color: #a0aec0; font-size: 11px; display: block; margin-bottom: 6px; text-transform: uppercase; font-weight: bold;">Nombre del Taller</label>
+                <input type="text" id="nombre-taller-input" maxlength="40" placeholder="Ej: Taller García" autocomplete="off" style="width: 100%; padding: 10px; background: #0f141c; border: 1px solid #2a344a; border-radius: 6px; color: #fff; font-size: 15px; box-sizing: border-box; outline: none; margin-bottom: 0;">
+            </div>
+
+            <div style="text-align: left; margin-bottom: 20px;">
+                <label for="nueva-clave-input" style="color: #a0aec0; font-size: 11px; display: block; margin-bottom: 6px; text-transform: uppercase; font-weight: bold;">Nueva Contraseña (vacío = no cambiarla)</label>
+                <div style="position: relative; width: 100%; box-sizing: border-box;">
+                    <input type="password" id="nueva-clave-input" placeholder="Escribí la nueva clave" autocomplete="new-password" style="width: 100%; padding: 10px 45px 10px 10px; background: #0f141c; border: 1px solid #2a344a; border-radius: 6px; color: #fff; font-size: 15px; box-sizing: border-box; outline: none;">
+                    <button type="button" id="btn-ver-nueva-clave" aria-label="Mostrar u ocultar contraseña" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 18px; padding: 4px; user-select: none; opacity: 0.7;">👁️</button>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <button type="button" id="btn-cancelar-config" style="flex: 1; padding: 10px; background: #3d4f73; border: none; border-radius: 6px; color: #fff; font-weight: bold; cursor: pointer;">Cancelar</button>
+                <button type="button" id="btn-guardar-config" style="flex: 1; padding: 10px; background: #28a745; border: none; border-radius: 6px; color: #fff; font-weight: bold; cursor: pointer;">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- El script va al final, cuando todo el HTML ya existe -->
+    <script src="app.js"></script>
+</body>
+</html>

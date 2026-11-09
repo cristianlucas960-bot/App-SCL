@@ -1,0 +1,273 @@
+:root {
+    --bg-main: #0f141c;
+    --bg-card: #161f2b;
+    --bg-input: #1b2736;
+    --text-main: #cdd6f4;
+    --text-muted: #8a9ba8;
+    --accent: #3a86ff;
+    --status-pending: #ffb703;
+    --status-progress: #22b8cf;
+    --status-ready: #2ec4b6;
+    color-scheme: dark; /* controles nativos (select, scrollbars) en modo oscuro */
+}
+
+* { box-sizing: border-box; }
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+header h1 {
+    text-align: center;
+    color: #fff;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 24px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.2fr;
+    gap: 20px;
+    max-width: 1450px;
+    margin: 0 auto 20px auto;
+}
+
+.sidebar-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 0; /* evita que el contenido ancho rompa la grilla */
+}
+
+.dashboard-grid > section { min-width: 0; }
+
+.card {
+    background: var(--bg-card);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #233145;
+}
+
+.card h2 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 1rem;
+    color: #fff;
+    font-weight: 600;
+    border-left: 3px solid var(--accent);
+    padding-left: 8px;
+}
+
+.tools-list { list-style: none; padding: 0; margin: 0; }
+.tools-list li { margin-bottom: 10px; color: var(--text-muted); font-size: 0.9rem; }
+code { color: #fff; font-family: monospace; overflow-wrap: anywhere; }
+
+input, textarea, select {
+    width: 100%;
+    margin-bottom: 12px;
+    padding: 10px;
+    background: var(--bg-input);
+    border: 1px solid #2a3b52;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-family: inherit;
+}
+
+textarea { resize: vertical; }
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+/* Oculta el ojito nativo del navegador (Edge/Safari) para que solo se vea el del programa */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear { display: none; }
+input[type="password"]::-webkit-credentials-auto-fill-button { visibility: hidden; display: none !important; pointer-events: none; }
+
+/* Foco visible para quienes navegan con teclado */
+button:focus-visible, a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+form button {
+    width: 100%;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 12px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+form button:hover { filter: brightness(1.1); }
+
+/* CALCULADORA */
+.calc-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.calc-row label { font-size: 0.85rem; color: var(--text-muted); }
+.calc-row input { width: 45%; margin-bottom: 0; padding: 8px; }
+
+.calc-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+    border-top: 1px solid #233145;
+    padding-top: 12px;
+}
+.total-highlight { color: var(--status-ready); font-weight: bold; font-size: 1.2rem; }
+
+/* LISTA DE PRECIOS (con scroll) */
+.services-table-container {
+    max-height: 190px;
+    overflow-y: auto;
+    margin-bottom: 12px;
+}
+.services-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.services-table th { background: var(--bg-input); color: var(--text-muted); text-align: left; padding: 8px; }
+.services-table td { padding: 8px; border-bottom: 1px solid #233145; }
+.price-green { color: var(--status-ready); font-weight: bold; }
+
+/* Botón ➕ de cada servicio (antes no tenía estilo) */
+.btn-load-service, .svc-btn {
+    background: #233145;
+    border: 1px solid #2a3b52;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.btn-load-service:hover, .svc-btn:hover { background: var(--accent); }
+
+.inline-form { display: flex; gap: 8px; }
+.inline-form input[type="text"] { width: 65%; margin-bottom: 0; }
+.inline-form input[type="number"] { width: 35%; margin-bottom: 0; }
+.inline-form button { background: #233145; border: 1px solid #2a3b52; color: #fff; padding: 0 12px; border-radius: 4px; cursor: pointer; }
+.inline-form button:hover { background: var(--accent); }
+
+/* TARJETAS DE TRABAJO (con scroll) */
+.jobs-scroll-container {
+    max-height: 480px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+.jobs-list { list-style: none; padding: 0; margin: 0; }
+.job-item { background: var(--bg-input); padding: 14px; margin-bottom: 12px; border-radius: 6px; border: 1px solid #233145; overflow-wrap: anywhere; }
+.job-header { display: flex; justify-content: space-between; gap: 8px; font-weight: bold; font-size: 0.95rem; }
+.job-meta { font-size: 0.8rem; color: var(--text-muted); margin: 4px 0 8px 0; }
+.status-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-top: 10px; gap: 8px; }
+.status-select { width: auto; margin-bottom: 0; padding: 4px 8px; font-size: 0.8rem; font-weight: bold; border-radius: 4px; cursor: pointer; }
+.sel-pending { background: rgba(255,183,3,0.15); color: var(--status-pending); border-color: var(--status-pending); }
+.sel-progress { background: rgba(34,184,207,0.15); color: var(--status-progress); border-color: var(--status-progress); }
+.sel-done { background: rgba(46,196,182,0.15); color: var(--status-ready); border-color: var(--status-ready); }
+
+.btn-whatsapp-ready {
+    background: #25D366; color: #000; text-decoration: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 4px;
+}
+.btn-whatsapp-ready:hover { filter: brightness(1.1); }
+
+/* BASE DE DATOS GENERAL (con scroll) */
+.table-container { max-width: 1450px; margin: 0 auto; }
+.table-header-flex { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+.table-header-flex h2 { border: none; margin: 0; }
+.btn-secondary { background: var(--bg-input); color: #fff; border: 1px solid #2a3b52; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; }
+.btn-secondary:hover { border-color: var(--accent); }
+.responsive-table {
+    max-height: 250px;
+    overflow: auto;
+}
+table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; }
+th, td { padding: 10px; border-bottom: 1px solid #233145; }
+th { background-color: var(--bg-input); color: var(--text-muted); position: sticky; top: 0; z-index: 5; white-space: nowrap; }
+tbody tr:hover { background-color: rgba(255,255,255,0.04); }
+
+.badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; white-space: nowrap; }
+.badge-pending { background: rgba(255,183,3,0.15); color: var(--status-pending); }
+.badge-progress { background: rgba(34,184,207,0.15); color: var(--status-progress); }
+.badge-done { background: rgba(46,196,182,0.15); color: var(--status-ready); }
+
+.btn-table-action { background: var(--accent); color: #fff; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; white-space: nowrap; }
+.btn-table-action:hover { filter: brightness(1.1); }
+
+/* SCROLLBARS */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-main); }
+::-webkit-scrollbar-thumb { background: #233145; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* MODAL */
+/* visibility:hidden evita que los botones/campos del modal cerrado reciban foco con Tab */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 1000;
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+.modal-overlay.active { opacity: 1; visibility: visible; pointer-events: auto; }
+.modal-content { background: var(--bg-card); width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto; padding: 20px; border-radius: 8px; border: 1px solid #233145; }
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid #233145; padding-bottom: 8px; }
+.modal-header h3 { margin: 0; overflow-wrap: anywhere; }
+.btn-close { background: none; border: none; color: #fff; cursor: pointer; font-size: 1rem; }
+.block-text { background: var(--bg-input); padding: 10px; border-radius: 4px; margin-bottom: 12px; overflow-wrap: anywhere; }
+#modal-notes { height: 100px; margin-top: 6px; }
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+    .dashboard-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+    body { padding: 12px; }
+    header h1 { font-size: 1.2rem; }
+    /* 16px evita el zoom automático de iOS al enfocar un campo */
+    input, textarea, select { font-size: 16px; }
+    .calc-row { flex-direction: column; align-items: stretch; }
+    .calc-row input { width: 100%; }
+}
+
+/* Edición de la lista de precios */
+.svc-actions { display: flex; gap: 4px; flex-wrap: nowrap; }
+.services-table input { margin-bottom: 0; padding: 6px; font-size: 0.85rem; }
+.services-table .edit-price { min-width: 80px; }
+
+/* Botones de la base de datos */
+.header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.print-only { display: none; }
+
+/* IMPRESIÓN: solo se imprime la base de datos, en blanco y negro */
+@media print {
+    body > *:not(.table-container) { display: none !important; }
+    body { background: #fff !important; padding: 0 !important; }
+    .table-container { border: none !important; background: #fff !important; padding: 0 !important; max-width: none !important; }
+    .table-container, .table-container * { color: #000 !important; background: transparent !important; box-shadow: none !important; }
+    .header-actions { display: none !important; }
+    .print-only { display: block !important; margin: 0 0 12px; font-size: 12pt; }
+    .table-header-flex h2 { border: none; padding: 0; font-size: 16pt; }
+    .responsive-table { max-height: none !important; overflow: visible !important; }
+    table { font-size: 10pt; }
+    th, td { border: 1px solid #999 !important; padding: 6px !important; }
+    th { position: static !important; font-weight: bold; }
+    tr { page-break-inside: avoid; }
+    /* la columna "Ficha / Notas" solo tiene botones */
+    th:last-child, td:last-child { display: none !important; }
+    .badge { border: 1px solid #000; }
+}
